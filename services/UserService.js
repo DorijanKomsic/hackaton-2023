@@ -5,17 +5,23 @@ const bcryptjs = require('bcrypt');
 const Users = require('../models/Users.js');
 //const { StatusError } = require('../utils/helper.util');
 
-async function register(user) {
+async function register(req, res, next) {
+    console.log(req.body);
+    //    console.log(user.body);
     let registeredUser = await Users.create({
-        first_name: user.username,
-        email: user.email,
-        password: user.password
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        password: req.body.password
     });
     registeredUser.password = undefined;
     delete (registeredUser.password);
 
     const token = registeredUser.createJWT();
-    return { registeredUser, token };
+    console.log(token);
+    console.log("\n", registeredUser)
+    res.status(201).send({ registeredUser, token });
+    //return { registeredUser, token };
 }
 
 async function login(loginInfo) {
