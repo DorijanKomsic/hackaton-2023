@@ -1,6 +1,6 @@
 const Device = require("../models/Devices.js");
 
-module.exports.register = async (req, res, next) => {
+module.exports.addDevice = async (req, res, next) => {
     try {
         const {ip_address, mac_address} = req.body;
         const mac_check = await Device.findOne({ mac_address });
