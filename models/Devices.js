@@ -10,6 +10,7 @@ const DevicesSchema = new mongoose.Schema({
     mac_address: {
         type: String,
         required: [true, 'MacAddress can\'t be empty'],
+        unique: true
     },
     createdAt: {
         type: Date,
