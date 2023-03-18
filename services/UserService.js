@@ -3,7 +3,6 @@ const bcryptjs = require('bcrypt');
 
 
 const Users = require('../models/Users.js');
-//const { StatusError } = require('../utils/helper.util');
 
 async function register(req, res, next) {
     console.log(req.body);
@@ -24,28 +23,31 @@ async function register(req, res, next) {
     //return { registeredUser, token };
 }
 
-async function login(loginInfo) {
-    if (!loginInfo.email || !loginInfo.password) {
-        throw new StatusError('All credentials have to be provided', 422);
+async function login(req, res, next) {
+    const loginInfo = req.body;
+    if (!req.body.email || !req.body.password) {
+        res.status(401);
+        return res.end("Bad request")
     }
     const loginUser = await Users.findOne({
         email: loginInfo.email
     }).select('+password');
     if (!loginUser) {
-        throw new StatusError('No such user found', 404);
+        res.status(404);
+        return res.end("Not found")
     }
     else {
         // bcrypt compare
-        const passwordMatches = await loginUser.comparePassword(loginInfo.password);
-        if (!passwordMatches) {
-            throw new StatusError('Incorrect password', 401);
-        }
-        loginUser.password = undefined;
-        delete (loginUser.password);
-        const token = loginUser.createJWT();
-        return { loginUser, token };
+            const token = loginUser.createJWT();
+            loginUser.password = undefined;
+            delete loginUser.password;
+            res.status(200).json({
+            token,
+            user: loginUser
+        });
     }
 }
+
 
 // admin
 async function getNewUsersCount() {
