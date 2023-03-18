@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
 const bcryptjs = require('bcryptjs');
-const generalConfig = require('');
 
-const ProfileSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const ProfilesSchema = new Schema({
     name: {
         type: String,
         required: [true, 'Name can\'t be empty'],
@@ -11,7 +11,7 @@ const ProfileSchema = new mongoose.Schema({
         maxlength: 25,
         trim: true
     },
-    pass: {
+    password: {
         type: String,
         required: [true, 'Password can\'t be empty'],
         minlength: 6,
@@ -30,4 +30,4 @@ UserSchema.methods.comparePassword = async function (pass) {
     return await bcryptjs.compare(pass, this.password);
 }
 
-module.exports = mongoose.model("Profile", UserSchema);
+module.exports = mongoose.model("Profile", ProfilesSchema);
