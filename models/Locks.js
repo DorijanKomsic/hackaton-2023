@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const ThermostatsSchema = new Schema({
+const LockSchema = new Schema({
     model:{ 
         type:String,
         trim: true
@@ -29,4 +29,4 @@ const ThermostatsSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Thermostat', ThermostatsSchema);
+module.exports = mongoose.model('Locks', LockSchema);
