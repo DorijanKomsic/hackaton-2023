@@ -25,9 +25,4 @@ UserSchema.pre('save', async function () {
     this.createdAt = new Date().toISOString();
 });
 
-
-UserSchema.methods.comparePassword = async function (pass) {
-    return await bcryptjs.compare(pass, this.password);
-}
-
 module.exports = mongoose.model("Profile", ProfilesSchema);

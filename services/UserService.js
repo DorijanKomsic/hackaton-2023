@@ -1,7 +1,9 @@
 //express service = php dao
+const bcryptjs = require('bcrypt');
+
 
 const Users = require('../models/Users.js');
-const { StatusError } = require('../utils/helper.util');
+//const { StatusError } = require('../utils/helper.util');
 
 async function register(user) {
     let registeredUser = await Users.create({
