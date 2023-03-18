@@ -1,5 +1,7 @@
 const Device = require("../models/Devices.js");
-const Device_Thermostat = require("../models/Device_Thermostat.js")
+const Device_Thermostat = require("../models/Device_Thermostat.js");
+const Thermostats = require("../models/Thermostats.js");
+const Permissions = require("../models/Permissions.js");
 
 module.exports.addDevice = async (req, res, next) => {
     try {
@@ -12,7 +14,7 @@ module.exports.addDevice = async (req, res, next) => {
             mac_address,
         });
         const d_id = d._id;
-        return res.json({ status: true, id: d_id });
+        return { status: true, id: d_id };
     } catch (error) {
         next(error);
     }
@@ -20,9 +22,17 @@ module.exports.addDevice = async (req, res, next) => {
 
 module.exports.getDevice = async (req, res, next) => {
     try{
-        const id = req.body._id;
-        const dev = await User.find({ id })
-        return res.json(dev);
+        const d_id = req.body.device_id;
+        const t_id = req.body.thermostat_id;
+        const thermostatdevice = await Device_Thermostat.findOne({ t_id, d_id });
+        const thermostat = await Thermostats.findOne({t_id});
+        const device = await Device.findOne({ d_id });
+        const result = {
+            "device" : device, 
+            "thermostat" : thermostat,
+            "thermostat_device" : thermostatdevice
+        };
+        return res.json(result);
     }catch (error){
         next(error);
     }
@@ -30,8 +40,12 @@ module.exports.getDevice = async (req, res, next) => {
 
 module.exports.removeDevice = async (req, res, next) => {
     try{
-        const id = req.body._id;
-        const dev = await Device.findOneAndDelete({ id });
+        const p_id = req.body.profile_id;
+        const d_id = req.body.device_id;
+        const t_id = req.body.thermostat_id;
+        await Permissions.findOneAndDelete({ d_id, p_id });
+        await Device.findOneAndDelete({ d_id });
+        await Device_Thermostat.findOneAndDelete({ t_id, d_id});
         return res.json({msg : "Success"});
     }catch (error){
         next(error);
@@ -40,7 +54,7 @@ module.exports.removeDevice = async (req, res, next) => {
 
 module.exports.getAllDevices = async (req, res, next) => {
     try{
-        const dev = await User.find()
+        const dev = await Device.find();
         return res.json(dev);
     }catch (error){
         next(error);
@@ -49,8 +63,14 @@ module.exports.getAllDevices = async (req, res, next) => {
 
 module.exports.updateDevice = async (req, res, next) => {
     try{
-        const dev = await User.find()
-        return res.json(dev);
+        const {ip_address, mac_address} = req.body;
+        const dev = await Device.findOneAndUpdate(
+            {"ip_address" : ip_address},
+            {"mac_address" : mac_address}
+        );
+        await Device_Thermostat.updateDevice_Thermostat(req, res, next);
+        await Thermostats.updateThermostat(req, res, next);
+        return res.json({message: "Success"});
     }catch (error){
         next(error);
     }
