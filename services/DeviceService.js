@@ -46,7 +46,6 @@ module.exports.removeDevice = async (req, res, next) => {
         const t_id = req.body.thermostat_id;
         await Permissions.findOneAndDelete({ d_id, p_id });
         await Device.findOneAndDelete({ d_id });
-        await Device_Thermostat.findOneAndDelete({ t_id, d_id});
         return res.json({msg : "Success"});
     }catch (error){
         next(error);
