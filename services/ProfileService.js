@@ -22,6 +22,14 @@ async function profileRegister(req, res, next) {
     //return { registeredUser, token };
 }
 
+async function listProfiles(req, res, next) {
+    try {
+        const profiles = await Profiles.find({}).populate('_id', 'name')
+    } catch(error) {
+        next(error);
+    }
+}
+
 async function profileRegisterSolo(user_id) {
     //console.log(req.body);
     console.log("26", user_id);
@@ -81,6 +89,7 @@ async function compareAdminPassword(loginInfo) {
 module.exports = {
     profileRegister: profileRegister,
     profileLogin: profileLogin,
+    listProfiles: listProfiles,
     //compareAdminPassword: compareAdminPassword,
     profileRegisterSolo: profileRegisterSolo
 };
