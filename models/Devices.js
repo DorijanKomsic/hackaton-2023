@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const generalConfig = require('');
 
 const DevicesSchema = new mongoose.Schema({
     ip_address: {
@@ -14,6 +13,10 @@ const DevicesSchema = new mongoose.Schema({
     },
     createdAt: {
         type: Date,
+        unique: true
+    },
+    name: {
+        type: String,
         unique: true
     }
 });
