@@ -19,10 +19,6 @@ const LockSchema = new Schema({
         type:String,
         trim: true
     },
-    hvac:{ 
-        type:String,
-        trim: true
-    },
     createdAt: {
         type: Date,
         unique: true
