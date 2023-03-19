@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const generalConfig = require('');
 
 const PermissionsSchema = new mongoose.Schema({
     profile_id: {

@@ -1,11 +1,12 @@
 const Device = require("../models/Devices.js");
-const Device_Thermostat = require("../models/Device_Thermostat.js");
+const Device_Thermostat = require("../models/Devices_Thermostats");
 const Thermostats = require("../models/Thermostats.js");
 const Permissions = require("../models/Permissions.js");
 
 module.exports.addDevice = async (req, res, next) => {
     try {
-        const {ip_address, mac_address} = req.body;
+        const ip_address = req.body.device.ip_address;
+        const mac_address = req.body.device.mac_address;
         const mac_check = await Device.findOne({ mac_address });
         if (mac_check)
             return res.json({ msg: "Device Already Exists", status: false });
