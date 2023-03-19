@@ -43,3 +43,12 @@ module.exports.updateDevice_Thermostat = async(req, res, next) => {
     }
 };
 
+module.exports.deleteDevice_Thermostat = async (req, res, next) => {
+    try{
+        const {thermostat_id, device_id} = req.body;
+        await thermostatsDevices.deleteOne({"thermostat_id": thermostat_id, "device_id":device_id});
+        Device.removeDevice(req, res, next);
+    }catch(error){
+        next(error);
+    }
+};

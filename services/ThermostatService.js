@@ -103,3 +103,20 @@ module.exports.updateDevice_Thermostat = async(req, res, next) => {
     }
 };
 
+module.exports.getThermostat = async (req, res, next) => {
+    try{
+        const d_id = req.body.device_id;
+        const t_id = req.body.lock_id;
+        const thermostatdevice = await Device_Thermostat.findOne({ t_id, d_id });
+        const thermostat = await Thermostats.findOne({t_id});
+        const device = await Device.findOne({ d_id });
+        const result = {
+            "device" : device, 
+            "thermostat" : thermostat,
+            "thermostatdevice" : thermostatdevice
+        };
+        return res.json(result);
+    }catch (error){
+        next(error);
+    }
+};

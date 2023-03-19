@@ -1,4 +1,5 @@
 const Device_Light = require("./models/Devices_Lights.js");
+const Device = require("./DeviceService");
 
 module.exports.addDevice_Light = async (req, res, next, thermostat_id, device_id) => {
     try {
@@ -36,3 +37,12 @@ module.exports.updateDevice_Light = async(req, res, next) => {
     }
 };
 
+module.exports.deleteDevice_Light = async (req, res, next) => {
+    try{
+        const {light_id, device_id} = req.body;
+        await Device_Light.deleteOne({"light_id": light_id, "device_id":device_id});
+        Device.removeDevice(req, res, next);
+    }catch(error){
+        next(error);
+    }
+};
