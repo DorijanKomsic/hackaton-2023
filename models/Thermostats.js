@@ -29,4 +29,6 @@ const ThermostatsSchema = new Schema({
     }
 });
 
+ThermostatsSchema.index({model: 1}, {unique: true});
+
 module.exports = mongoose.model('Thermostat', ThermostatsSchema);

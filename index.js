@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 const userRoutes = require('./routes/userRoutes');
 const profileRoutes = require('./routes/profileRoutes');
+const thermostat = require('./routes/thermostatRoutes');
 const bodyParser = require('body-parser');
 
 require('./dbConnection');
@@ -13,6 +14,7 @@ app.use(cors());
 
 app.use("/api/users", userRoutes);
 app.use("/api/profiles", profileRoutes);
+app.use("/api/thermostats", thermostat);
 
 const port = 5000;
 
