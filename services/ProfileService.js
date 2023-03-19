@@ -4,10 +4,10 @@ var passwordGenerator = require('generate-password');
 const Profiles = require('../models/Profiles.js');
 
 async function profileRegister(req, res, next) {
-    console.log(req.body);
+    //console.log(":M:M:M:M", req.body, req.user_id);
     //    console.log(user.body);
     let registeredProfile = await Profiles.create({
-        user_id: req.body.user_id,
+        user_id: req.user_id,
         name: req.body.name,
         password: req.body.password,
         admin: req.body.admin

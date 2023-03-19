@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-
-
+const bodyParser = require('body-parser');
+const authJwt = require('./middlewares/authJwt');
 const userRoutes = require('./routes/userRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const thermostat = require('./routes/thermostatRoutes');
@@ -16,6 +16,8 @@ require('./dbConnection');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
+
+app.all('*', authJwt.verifyUserToken);
 
 app.use("/api/users", userRoutes);
 app.use("/api/profiles", profileRoutes);

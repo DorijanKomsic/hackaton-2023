@@ -1,14 +1,11 @@
 const jwt = require("jsonwebtoken");
-const config = require("../config/auth.config.js"); //Treba li nam ovaj fajl ???
-const db = require("../models");
 require('dotenv').config();
 
-function UserJWTAuth(req, res, next) {
+function verifyUserToken(req, res, next) {
   const users = '/api/users/';
   const profiles = '/api/profiles/';
   // Skip authorization checking on the following routes: 
-  if (req.path === '/' || req.path === auth + 'login' || req.path === auth + 'register' || req.path === '/api-docs') return next();
-
+  if (req.path === '/' || req.path === users + 'login' || req.path === users + 'register') return next();
   //console.log(req.body);
   const authHeader = req.headers['authorization'];
   if (!authHeader) {
@@ -26,14 +23,16 @@ function UserJWTAuth(req, res, next) {
       return res.status(401).end("Error: Access Denied");
     }
 
-    req.user = user;
+
+    req.user_id = user.user_id;
+    console.log(req.user_id);
     /* 
     console.log(req.path, files + 'getFileReviews');
     console.log(user); */
 
     if (req.path === profiles + 'profileRegister') {
 
-      if (!user.adminPassword) {
+      if (!req.user_id) {
         req.err = "Error: Administrator profile required";
         console.error('JWT ERROR: ' + 'Admin profile required');
         return res.status(401).send("Error: Administrator profile required");
@@ -41,21 +40,21 @@ function UserJWTAuth(req, res, next) {
     }
 
     if (req.path === profiles + 'profileLogin') {
-      if (!user.user_id) {
+      if (!req.user_id) {
         req.err = "Error: User account required";
         console.error('JWT ERROR: ' + 'User account required');
         return res.status(401).send("Error: User account required");
       }
     }
 
-    if (req.path === auth + 'newUserCount' || req.path === files + 'newFilesCount'
-      || req.path === files + 'getFileReviews' || req.path === files + 'handleFileReview') {
-      if (!user.profileId) {
-        req.err = "Error: Profile Not Present";
-        console.error('JWT ERROR: ' + 'Admin role required');
-        return res.status(401).send("Error: Access Denied");
-      }
-    }
+    /*     if (req.path === auth + 'newUserCount' || req.path === files + 'newFilesCount'
+          || req.path === files + 'getFileReviews' || req.path === files + 'handleFileReview') {
+          if (!user.profileId) {
+            req.err = "Error: Profile Not Present";
+            console.error('JWT ERROR: ' + 'Admin role required');
+            return res.status(401).send("Error: Access Denied");
+          }
+        } */
     next();
   });
 };
@@ -93,7 +92,7 @@ verifyProfileToken = (req, res, next) => {
 };
 
 const authJwt = {
-  verifyToken,
+  verifyUserToken,
   verifyProfileToken
 };
 module.exports = authJwt;
