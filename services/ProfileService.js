@@ -18,7 +18,7 @@ async function profileRegister(req, res, next) {
     const profileToken = registeredProfile.createJWT();
     console.log(profileToken);
     console.log("\n", registeredProfile)
-    res.status(201).send({ registeredProfile, profileToken });
+    res.status(201).end({ registeredProfile, profileToken });
     //return { registeredUser, token };
 }
 
@@ -74,7 +74,7 @@ async function profileLogin(req, res, next) {
         loginProfile.password = undefined;
         delete (loginProfile.password);
         const profileToken = loginProfile.createJWT();
-        res.status(200).send({ loginProfile, profileToken });
+        res.status(200).end({ loginProfile, profileToken });
     }
 }
 

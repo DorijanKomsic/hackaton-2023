@@ -66,7 +66,7 @@ async function login(req, res, next) {
         loginUser.password = undefined;
         delete (loginUser.password);
         const token = loginUser.createJWT();
-        res.status(201).send({ loginUser, token });
+        res.status(201).end({ loginUser, token });
     }
 }
 
