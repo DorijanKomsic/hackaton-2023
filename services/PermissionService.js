@@ -19,3 +19,7 @@ module.exports.addPermission = async (res, req, next, profile_id, device_id) => 
         next(error);
     }
 }
+
+module.exports.removePermissions = async (res, req, next) => {
+    
+}
