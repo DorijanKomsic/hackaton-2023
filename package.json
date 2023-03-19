@@ -20,10 +20,12 @@
   "homepage": "https://github.com/DorijanKomsic/hackaton-2023#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "generate-password": "^1.7.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.2",
     "nodemon": "^2.0.21",
