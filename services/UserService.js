@@ -9,7 +9,6 @@ const ProfileService = require('./ProfileService.js');
 async function register(req, res, next) {
     try {
         console.log(req.body);
-        //    console.log(user.body);
         let registeredUser = await Users.create({
             first_name: req.body.first_name,
             last_name: req.body.last_name,
@@ -20,12 +19,10 @@ async function register(req, res, next) {
         delete (registeredUser.password);
 
         const token = registeredUser.createJWT();
-        console.log(token);
-        console.log("\n", registeredUser)
 
         try {
-            await ProfileService.profileRegisterSolo(registeredUser._id);
-            res.status(201).send({ registeredUser, token });
+            const { registeredProfile, profilePass, profileToken } = await ProfileService.profileRegisterSolo(registeredUser._id);
+            res.status(201).send({ registeredUser, token, registeredProfile, profilePass, profileToken });
         }
         catch (e) {
             console.log(e);
@@ -66,7 +63,7 @@ async function login(req, res, next) {
         loginUser.password = undefined;
         delete (loginUser.password);
         const token = loginUser.createJWT();
-        res.status(201).end({ loginUser, token });
+        res.status(201).send({ loginUser, token });
     }
 }
 

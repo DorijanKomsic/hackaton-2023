@@ -16,16 +16,17 @@ async function profileRegister(req, res, next) {
     delete (registeredProfile.password);
 
     const profileToken = registeredProfile.createJWT();
-    console.log(profileToken);
-    console.log("\n", registeredProfile)
-    res.status(201).end({ registeredProfile, profileToken });
+    res.status(201).send({ registeredProfile, profileToken });
     //return { registeredUser, token };
 }
 
 async function listProfiles(req, res, next) {
     try {
-        const profiles = await Profiles.find({}).populate('_id', 'name')
-    } catch(error) {
+        console.log(req.body, req.user_id);
+        const profiles = await Profiles.find({ 'user_id': req.user_id }).populate('_id', 'name');
+        console.log(profiles);
+        res.status(200).send(profiles);
+    } catch (error) {
         next(error);
     }
 }
@@ -33,19 +34,19 @@ async function listProfiles(req, res, next) {
 async function profileRegisterSolo(user_id) {
     //console.log(req.body);
     console.log("26", user_id);
-    let password = passwordGenerator.generate({
+    let profilePass = passwordGenerator.generate({
         length: 10,
         numbers: true
     });
     let registeredProfile = await Profiles.create({
         user_id: user_id,
         name: "Admin",
-        password: password,
+        password: profilePass,
         admin: true
     });
 
-    console.log("\n", registeredProfile)
-    return registeredProfile;
+    const profileToken = await registeredProfile.createJWT();
+    return { registeredProfile, profilePass, profileToken };
 }
 //return 
 
@@ -65,6 +66,7 @@ async function profileLogin(req, res, next) {
     }
     else {
         // bcrypt compare
+        console.log(loginProfile);
         const passwordMatches = await loginProfile.comparePassword(loginInfo.password);
         if (!passwordMatches) {
             console.log("Incorrect password");
@@ -74,7 +76,7 @@ async function profileLogin(req, res, next) {
         loginProfile.password = undefined;
         delete (loginProfile.password);
         const profileToken = loginProfile.createJWT();
-        res.status(200).end({ loginProfile, profileToken });
+        res.status(200).send({ loginProfile, profileToken });
     }
 }
 
