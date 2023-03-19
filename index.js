@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const userRoutes = require('./routes/userRoutes');
+const profileRoutes = require('./routes/profileRoutes');
 const bodyParser = require('body-parser');
 
 require('./dbConnection');
@@ -10,7 +11,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
-app.use("/api", userRoutes)
+app.use("/api/users", userRoutes);
+app.use("/api/profiles", profileRoutes);
 
 const port = 5000;
 
