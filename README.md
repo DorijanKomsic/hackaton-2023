@@ -28,6 +28,8 @@ Welcome to our project! This is a Automation- Smart house web application made i
  4. Go to the Brainy Home front end github repository and follow further instructions how to run it.
     - [Brainy Home](https://github.com/DzenisKajevic/hackaton-2023-fe)
 
+ 5. Alternatively you can run this through docker with `docker-compose up --build`
+
 ## Contributing
 
 We welcome any and all contributions! Here are some ways you can get started:

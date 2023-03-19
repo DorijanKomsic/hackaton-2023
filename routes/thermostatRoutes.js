@@ -5,9 +5,9 @@ const { deleteThermostat } = require("../services/Device_ThermostateService.js")
 
 const router = require("express").Router();
 
-router.post("/addThermostat", addThermostat);
-router.put("/updateThermostat", updateThermostat);
+router.post("/addThermostat", (req, res) =>addThermostat);
+router.put("/updateThermostat", (req, res) => updateThermostat);
 router.get("/getThermostat", getThermostat);
-router.delete("/deleteThermostat", deleteThermostat);
+router.delete("/deleteThermostat", (req, res) => deleteThermostat);
 
 module.exports = router;
