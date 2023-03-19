@@ -87,6 +87,8 @@ module.exports.updateLight = async(req, res, next) => {
             {"manufacturer" : manufacturer},
             {"color" : color}
         );
+        await Device_Light.updateDevice_Light(req, res, next);
+        await Device.updateDevice(req, res, next);
         return {message: "Success"};
     }catch (error){
         next(error);

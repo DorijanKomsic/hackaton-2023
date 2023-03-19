@@ -1,6 +1,4 @@
 const Device = require("../models/Devices.js");
-const Device_Thermostat = require("../models/Devices_Thermostats");
-const Thermostats = require("../models/Thermostats.js");
 const Permissions = require("../models/Permissions.js");
 
 module.exports.addDevice = async (req, res, next) => {
@@ -25,7 +23,6 @@ module.exports.removeDevice = async (req, res, next) => {
     try{
         const p_id = req.body.profile_id;
         const d_id = req.body.device_id;
-        const t_id = req.body.thermostat_id;
         await Permissions.findOneAndDelete({ d_id, p_id });
         await Device.findOneAndDelete({ d_id });
         return res.json({msg : "Success"});
@@ -50,8 +47,6 @@ module.exports.updateDevice = async (req, res, next) => {
             {"ip_address" : ip_address},
             {"mac_address" : mac_address}
         );
-        await Device_Thermostat.updateDevice_Thermostat(req, res, next);
-        await Thermostats.updateThermostat(req, res, next);
         return res.json({message: "Success"});
     }catch (error){
         next(error);
