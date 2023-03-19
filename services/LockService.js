@@ -85,7 +85,7 @@ module.exports.updateLock = async(req, res, next) => {
             firmware_version,
             last_update
         } = req.body;
-        const dev = await Lights.findOneAndUpdate(
+        const dev = await Lock.findOneAndUpdate(
             {"model" : model},
             {"manufacturer" : manufacturer},
             {"firmware_version" : firmware_version},
@@ -109,6 +109,8 @@ module.exports.getLock = async (req, res, next) => {
             "lock" : lock,
             "lockdevice" : lockdevice
         };
+        await Device_Lock.updateDevice_Lock(req, res, next);
+        await Device.updateDevice(req, res, next);
         return res.json(result);
     }catch (error){
         next(error);

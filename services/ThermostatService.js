@@ -97,6 +97,8 @@ module.exports.updateDevice_Thermostat = async(req, res, next) => {
             {"last_update" : last_update},
             {"hvac" : hvac}
         );
+        await Device_Thermostat.updateDevice_Thermostat(req, res, next);
+        await Device.updateDevice(req, res, next);
         return {message: "Success"};
     }catch (error){
         next(error);
