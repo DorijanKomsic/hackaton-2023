@@ -15,4 +15,6 @@ const PermissionsSchema = new mongoose.Schema({
     }
 });
 
+PermissionsSchema.index({profile_id: 1, device_id: 1}, {unique: true});
+
 module.exports = mongoose.model("Permissions", PermissionsSchema);
