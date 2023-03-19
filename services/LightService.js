@@ -92,3 +92,21 @@ module.exports.updateLight = async(req, res, next) => {
         next(error);
     }
 };
+
+module.exports.getLight = async (req, res, next) => {
+    try{
+        const d_id = req.body.device_id;
+        const l_id = req.body.light_id;
+        const lightdevice = await Device_Light.findOne({ l_id, d_id });
+        const light = await Light.findOne({l_id});
+        const device = await Device.findOne({ d_id });
+        const result = {
+            "device" : device, 
+            "light" : light,
+            "lightdevice" : lightdevice
+        };
+        return res.json(result);
+    }catch (error){
+        next(error);
+    }
+};

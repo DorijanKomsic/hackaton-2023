@@ -21,24 +21,6 @@ module.exports.addDevice = async (req, res, next) => {
     }
 }; 
 
-module.exports.getDevice = async (req, res, next) => {
-    try{
-        const d_id = req.body.device_id;
-        const t_id = req.body.thermostat_id;
-        const thermostatdevice = await Device_Thermostat.findOne({ t_id, d_id });
-        const thermostat = await Thermostats.findOne({t_id});
-        const device = await Device.findOne({ d_id });
-        const result = {
-            "device" : device, 
-            "thermostat" : thermostat,
-            "thermostat_device" : thermostatdevice
-        };
-        return res.json(result);
-    }catch (error){
-        next(error);
-    }
-};
-
 module.exports.removeDevice = async (req, res, next) => {
     try{
         const p_id = req.body.profile_id;

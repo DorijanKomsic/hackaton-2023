@@ -96,3 +96,21 @@ module.exports.updateLock = async(req, res, next) => {
         next(error);
     }
 };
+
+module.exports.getLock = async (req, res, next) => {
+    try{
+        const d_id = req.body.device_id;
+        const l_id = req.body.lock_id;
+        const lockdevice = await Device_Lock.findOne({ l_id, d_id });
+        const lock = await Lock.findOne({l_id});
+        const device = await Device.findOne({ d_id });
+        const result = {
+            "device" : device, 
+            "lock" : lock,
+            "lockdevice" : lockdevice
+        };
+        return res.json(result);
+    }catch (error){
+        next(error);
+    }
+};
