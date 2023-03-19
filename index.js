@@ -8,9 +8,6 @@ const profileRoutes = require('./routes/profileRoutes');
 const thermostat = require('./routes/thermostatRoutes');
 const permission = require('./routes/permissionRoutes');
 
-
-const bodyParser = require('body-parser');
-
 require('./dbConnection');
 
 app.use(bodyParser.urlencoded({ extended: true }));
